@@ -7,6 +7,17 @@ APP.use(cors());
 APP.use(express.json());
 DB.connect();
 
+APP.get("/todos", async(req, res) => {
+    try {
+        const ALL_TODOS = await DB.query(
+            "SELECT * FROM todo"
+        );
+        res.json(ALL_TODOS.rows)
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 APP.post("/todos", async (req, res) => {
     try {
         const DESCRIPTION = req.body.description;
