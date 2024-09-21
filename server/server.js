@@ -66,6 +66,20 @@ APP.put("/todos/:id", async (req, res) => {
     }
 });
 
+// Delete a to-do
+APP.delete("/todos/:id", async (req, res) => {
+    try {
+        const DELETE_ID = req.params.id;
+        const DELETED_TODO = await DB.query(
+            "DELETE FROM todos WHERE todo_id = $1",
+            [DELETE_ID]
+        );
+        res.json(DELETED_TODO);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 APP.listen(PORT, () => {
     console.log(`Server live on port: ${PORT}`);
 });
