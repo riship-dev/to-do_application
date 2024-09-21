@@ -11,6 +11,16 @@ const ListTodos = () => {
             console.log(err.message);
         }
     }
+    const deleteTodo = async (id) => {
+        try {
+            await fetch(`http://localhost:5000/todos/${id}`, {
+                method: "DELETE"
+            });
+            setTodos(todos.filter(todo => todo.todo_id !== id))
+        } catch (err) {
+            console.error(err.message);
+        }
+    };
     useEffect(() => {
         getTodos();
     }, []);
@@ -18,19 +28,19 @@ const ListTodos = () => {
     return (
         <Fragment>
             <table className="table mt-5 text-center">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>EDIT</th>
-                        <th>DELETE</th>
-                    </tr>
-                </thead>
                 <tbody>
-                    {todos.map(todos => (
-                        <tr key={todos.todo_id}>
-                            <td>{todos.description}</td>
+                    {todos.map(todo => (
+                        <tr key={todo.todo_id}>
+                            <td>{todo.description}</td>
                             <td>edit</td>
-                            <td>delete</td>
+                            <td>
+                                <button 
+                                    className="btn btn-danger"
+                                    onClick={() => deleteTodo(todo.todo_id)}
+                                >
+                                    DELETE
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
