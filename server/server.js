@@ -60,12 +60,7 @@ APP.put("/todos/:id", async (req, res) => {
             WHERE todo_id = $2",
             [NEW_DESCRIPTION, UPDATE_ID]
         );
-        /*
-        if (REQUESTED_TODO.rows.length === 0) {
-            return res.status(404).json({ error: "Todo not found" });
-        }
-        */
-        res.json(UPDATED_TODO.rows[0]);
+        res.json(UPDATED_TODO);
     } catch (err) {
         console.log(err.message);
     }
