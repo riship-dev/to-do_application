@@ -22,7 +22,6 @@ APP.get("/todos", async(req, res) => {
 APP.get("/todos/:id", async (req, res) => {
     try {
         const REQUESTED_ID = req.params.id;
-        console.log(REQUESTED_ID);
         const REQUESTED_TODO = await DB.query(
             "SELECT * FROM todos WHERE todo_id = $1",
             [REQUESTED_ID]
@@ -48,6 +47,27 @@ APP.post("/todos", async (req, res) => {
         res.json(NEW_TODO.rows[0]);
     } catch (err) {
         console.error(err.message);
+    }
+});
+
+// Update a to-do
+APP.put("/todos/:id", async (req, res) => {
+    try {
+        const UPDATE_ID = req.params.id;
+        const NEW_DESCRIPTION = req.body.description;
+        const UPDATED_TODO = await DB.query(
+            "UPDATE todos SET description = $1\
+            WHERE todo_id = $2",
+            [NEW_DESCRIPTION, UPDATE_ID]
+        );
+        /*
+        if (REQUESTED_TODO.rows.length === 0) {
+            return res.status(404).json({ error: "Todo not found" });
+        }
+        */
+        res.json(UPDATED_TODO.rows[0]);
+    } catch (err) {
+        console.log(err.message);
     }
 });
 
