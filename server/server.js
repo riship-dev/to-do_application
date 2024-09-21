@@ -10,7 +10,7 @@ DB.connect();
 APP.get("/todos", async(req, res) => {
     try {
         const ALL_TODOS = await DB.query(
-            "SELECT * FROM todo"
+            "SELECT * FROM todos"
         );
         res.json(ALL_TODOS.rows)
     } catch (err) {
