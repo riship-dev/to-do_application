@@ -11,7 +11,7 @@ DB.connect();
 APP.get("/todos", async(req, res) => {
     try {
         const ALL_TODOS = await DB.query(
-            "SELECT * FROM todos"
+            "SELECT * FROM todos ORDER BY todo_id"
         );
         res.json(ALL_TODOS.rows)
     } catch (err) {
